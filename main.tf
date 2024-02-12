@@ -7,6 +7,7 @@ terraform {
     }
   }
 }
+
 provider "aws" {
   access_key = "${var.aws_access_key}"
   secret_key = "${var.aws_secret_key}"
@@ -15,6 +16,7 @@ provider "aws" {
 
 data "aws_ami" "ubuntu" {
   most_recent = true
+  owners = ["099720109477"] # Canonical
 
   filter {
     name   = "name"
@@ -26,7 +28,6 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"] # Canonical
 }
 
 resource "aws_instance" "hello-world" {
