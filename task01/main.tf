@@ -3,7 +3,7 @@ terraform {
     organization = "akira128"
 
     workspaces {
-      name = "terraform-interview"
+      name = "github-terraform-interview"
     }
   }
   required_providers {
