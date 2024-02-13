@@ -3,20 +3,24 @@ terraform {
     organization = "akira128"
 
     workspaces {
-      name = "terraform-interview"
+      name = "github-terraform-interview"
+    }
+  }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.36.0"
     }
   }
 }
 
 provider "aws" {
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
-  region     = "${var.region}"
+  region = var.region
 }
 
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners = ["099720109477"] # Canonical
+  owners      = ["099720109477"] # Canonical
 
   filter {
     name   = "name"
@@ -33,7 +37,6 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "hello-world" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
-  # key_name      = "<ssh_key_name>"
 
   user_data = <<-EOF
               #!/bin/bash
