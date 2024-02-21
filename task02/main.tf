@@ -11,6 +11,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "5.36.0"
     }
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.2"
+    }
+
   }
 }
 
@@ -82,10 +87,10 @@ resource "aws_lambda_function" "lambdafce-hellow" {
   filename      = "lambda_function_payload.zip"
   function_name = "HelloWorldFunctionTF"
   role          = aws_iam_role.iam_for_lambda.arn
+  runtime       = "python3.8"
+  handler       = "test"
 
   source_code_hash = data.archive_file.lambda.output_base64sha256
-  runtime          = "python3.8"
-  # depends_on       = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
 }
 
 resource "aws_api_gateway_rest_api" "HelloWorldAPITF" {
